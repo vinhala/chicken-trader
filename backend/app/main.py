@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.exc import OperationalError
 
 from app.api import auth, broker, notifications, opportunities, theses, watchlist
-from app.db.base import Base, engine
+from app.db.base import Base, SessionLocal, engine
 from app.models import entities  # noqa: F401
 
 logger = logging.getLogger(__name__)
@@ -27,12 +27,24 @@ def startup() -> None:
     for attempt in range(1, 11):
         try:
             Base.metadata.create_all(bind=engine)
-            return
+            break
         except OperationalError:
             if attempt == 10:
                 raise
             logger.warning("Database not ready (attempt %d/10), retrying in 3s...", attempt)
             time.sleep(3)
+
+    # Trigger an immediate news ingest if the database has no events yet,
+    # so the app has data on first boot instead of waiting up to 6 hours for Celery Beat.
+    db = SessionLocal()
+    try:
+        from app.models.entities import Event
+        if not db.query(Event).first():
+            logger.warning("No events found on startup, triggering initial news ingest")
+            from app.workers.tasks import ingest_news_task
+            ingest_news_task.delay()
+    finally:
+        db.close()
 
 
 app.include_router(auth.router, prefix="/api")

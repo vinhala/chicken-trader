@@ -1,4 +1,5 @@
 import hashlib
+import logging
 import re
 from datetime import datetime
 from typing import Optional
@@ -8,6 +9,8 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.models.entities import Article, Event
+
+logger = logging.getLogger(__name__)
 
 # Common English stopwords to ignore when clustering by keyword overlap
 _STOPWORDS = {
@@ -74,6 +77,7 @@ def _cluster_event(db: Session, title: str) -> Optional[Event]:
 
 def fetch_news() -> list[dict]:
     if not settings.news_api_key:
+        logger.warning("NEWS_API_KEY not configured, returning demo articles")
         return [
             {
                 "source": "demo",
@@ -139,7 +143,8 @@ def fetch_news() -> list[dict]:
                         "publishedAt": a.get("publishedAt") or datetime.utcnow().isoformat(),
                         "description": a.get("description") or "",
                     })
-            except Exception:
+            except Exception as exc:
+                logger.warning("NewsAPI query failed for %r: %s", query, exc)
                 continue
 
     # Deduplicate by URL before returning
@@ -176,6 +181,8 @@ def ingest_news(db: Session) -> int:
                 if market_impact == "Low":
                     # Still store article but don't create an investment event
                     published = item["publishedAt"].replace("Z", "+00:00")
+                    if "T" not in published:
+                        logger.warning("Unparseable publishedAt %r for article %r, defaulting to utcnow()", item["publishedAt"], item.get("title", ""))
                     article = Article(
                         event_id=None,
                         source=item["source"][:120],
@@ -210,6 +217,8 @@ def ingest_news(db: Session) -> int:
             db.flush()
 
         published = item["publishedAt"].replace("Z", "+00:00")
+        if "T" not in published:
+            logger.warning("Unparseable publishedAt %r for article %r, defaulting to utcnow()", item["publishedAt"], item.get("title", ""))
         article = Article(
             event_id=event.id,
             source=item["source"][:120],

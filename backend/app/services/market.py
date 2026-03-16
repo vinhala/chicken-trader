@@ -22,10 +22,12 @@ def validate_ticker(ticker: str) -> bool:
                 params={"symbol": symbol, "token": settings.market_api_key},
             )
         if resp.status_code != 200:
+            logger.warning("Finnhub /stock/profile2 returned %d for %s, falling back to regex validation", resp.status_code, symbol)
             return symbol.isalpha() and 1 <= len(symbol) <= 5
         data = resp.json()
         return bool(data.get("ticker")) or (symbol.isalpha() and 1 <= len(symbol) <= 5)
-    except Exception:
+    except Exception as exc:
+        logger.warning("Finnhub ticker validation error for %s: %s, falling back to regex", symbol, exc)
         return symbol.isalpha() and 1 <= len(symbol) <= 5
 
 
@@ -54,8 +56,10 @@ def get_price_snapshot(tickers: list[str]) -> dict[str, float]:
                     current_price = data.get("c")  # "c" = current price in Finnhub
                     if current_price:
                         prices[symbol] = float(current_price)
+                else:
+                    logger.warning("Finnhub /quote returned %d for %s", resp.status_code, symbol)
             except Exception as exc:
-                logger.debug("Price fetch failed for %s: %s", symbol, exc)
+                logger.warning("Price fetch failed for %s: %s", symbol, exc)
                 continue
 
     return prices

@@ -91,8 +91,8 @@ def evaluate_thesis(db: Session, thesis: FollowedThesis) -> tuple[ThesisState, s
     securities: list[str] = []
     try:
         securities = json.loads(thesis.securities_json) if thesis.securities_json else []
-    except (json.JSONDecodeError, TypeError):
-        pass
+    except (json.JSONDecodeError, TypeError) as exc:
+        logger.warning("Failed to parse securities_json for thesis %d: %s", thesis.id, exc)
 
     from app.services.market import get_price_snapshot
     price_data = get_price_snapshot(securities)
@@ -116,11 +116,14 @@ def evaluate_thesis(db: Session, thesis: FollowedThesis) -> tuple[ThesisState, s
 
     if ai_result:
         ai_status = ai_result.get("status", "")
-        state = {
+        _status_map = {
             "Active": ThesisState.ACTIVE,
             "Warning": ThesisState.WARNING,
             "Close Suggested": ThesisState.SELL,
-        }.get(ai_status) or _time_based_state(age_days)
+        }
+        if ai_status not in _status_map:
+            logger.warning("AI returned unrecognized status %r for thesis %d, falling back to time-based", ai_status, thesis.id)
+        state = _status_map.get(ai_status) or _time_based_state(age_days)
         rationale = ai_result.get("rationale") or "AI evaluation completed."
         affected = ai_result.get("affected_securities") or securities
         action = ai_result.get("suggested_action") or "Review your position."

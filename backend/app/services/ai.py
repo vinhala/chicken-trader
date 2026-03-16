@@ -113,6 +113,7 @@ def generate_report_for_event(db: Session, event: Event) -> InvestmentReport:
             ))
     else:
         # Fallback when OpenAI is unavailable
+        logger.warning("OpenAI report generation returned no data for event %d, using static fallback", event.id)
         report = InvestmentReport(
             event_id=event.id,
             event_summary=event.summary,
