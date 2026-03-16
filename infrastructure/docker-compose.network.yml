@@ -12,7 +12,7 @@ volumes:
 
 configs:
   caddyfile:
-    file: ./ops/caddy/Caddyfile
+    file: ../ops/caddy/Caddyfile
 
 services:
   caddy:

@@ -9,10 +9,11 @@ endif
 
 STACK_NAME ?= chicken-trader
 
-NETWORK_FILE := docker-compose.network.yml
-APP_FILE := docker-compose.app.yml
-URLS_LOCAL_FILE := docker-compose.urls-local.yml
-URLS_PROD_FILE := docker-compose.urls-prod.yml
+INFRA_DIR := infrastructure
+NETWORK_FILE := $(INFRA_DIR)/docker-compose.network.yml
+APP_FILE := $(INFRA_DIR)/docker-compose.app.yml
+URLS_LOCAL_FILE := $(INFRA_DIR)/docker-compose.urls-local.yml
+URLS_PROD_FILE := $(INFRA_DIR)/docker-compose.urls-prod.yml
 
 build-local:
 	docker build -t chicken-trader-backend:latest ./backend

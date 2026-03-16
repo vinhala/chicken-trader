@@ -13,7 +13,7 @@ services:
   api:
     image: chicken-trader-backend:latest
     env_file:
-      - .env
+      - ../.env
     networks:
       - public
       - private
@@ -27,7 +27,7 @@ services:
   worker:
     image: chicken-trader-backend:latest
     env_file:
-      - .env
+      - ../.env
     command: ["celery", "-A", "app.workers.celery_app.celery", "worker", "--loglevel=INFO"]
     networks:
       - private
@@ -39,7 +39,7 @@ services:
   scheduler:
     image: chicken-trader-backend:latest
     env_file:
-      - .env
+      - ../.env
     command: ["celery", "-A", "app.workers.celery_app.celery", "beat", "--loglevel=INFO"]
     networks:
       - private
