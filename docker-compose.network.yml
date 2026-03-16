@@ -1,0 +1,43 @@
+networks:
+  public:
+    name: chicken-trader_public
+    driver: overlay
+    attachable: true
+  private:
+    driver: overlay
+    attachable: true
+
+volumes:
+  caddy_data:
+
+configs:
+  caddyfile:
+    file: ./ops/caddy/Caddyfile
+
+services:
+  caddy:
+    image: lucaslorentz/caddy-docker-proxy:latest
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
+      - target: 443
+        published: 443
+        protocol: tcp
+        mode: host
+    environment:
+      - CADDY_INGRESS_NETWORKS=chicken-trader_public
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - caddy_data:/data
+    configs:
+      - source: caddyfile
+        target: /etc/caddy/Caddyfile
+    networks:
+      - public
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager

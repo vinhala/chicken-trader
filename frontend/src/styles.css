@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply m-0 text-stone-100;
+    background-color: #43403e;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Georgia", "Times New Roman", ui-serif, serif;
+    @apply text-stone-100;
+  }
+
+  h2 {
+    @apply mb-4 border-b border-stone-600 pb-2 text-2xl font-semibold tracking-tight;
+  }
+
+  h3 {
+    @apply mb-2 text-xl font-semibold;
+  }
+
+  p {
+    @apply leading-relaxed text-stone-300;
+  }
+}
+
+@layer components {
+  .layout {
+    @apply min-h-screen;
+  }
+
+  .header {
+    @apply border-b border-stone-600 bg-[#3a3735] px-6 py-4 text-stone-100;
+  }
+
+  .header nav {
+    @apply mt-3 flex flex-wrap gap-4;
+  }
+
+  .header a {
+    @apply text-xs font-semibold uppercase tracking-[0.12em] text-stone-300 no-underline transition-colors;
+  }
+
+  .header a:hover {
+    @apply text-stone-100;
+  }
+
+  .content {
+    @apply mx-auto max-w-6xl px-6 py-8;
+  }
+
+  .card {
+    @apply mb-4 rounded-md border border-stone-600 bg-[#4a4643] p-5 shadow-[0_1px_0_rgba(0,0,0,0.2)];
+  }
+
+  .grid {
+    @apply grid gap-4;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .badge {
+    @apply inline-block rounded-sm border border-stone-500 bg-[#3d3a37] px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-stone-300;
+  }
+
+  .trend-up {
+    @apply text-emerald-400;
+  }
+
+  .trend-down {
+    @apply text-rose-400;
+  }
+
+  button {
+    @apply cursor-pointer rounded-sm border border-amber-400 bg-amber-400 px-3 py-2 text-sm font-semibold text-stone-900 transition-colors;
+  }
+
+  button:hover {
+    @apply bg-amber-300;
+  }
+
+  input,
+  select,
+  textarea {
+    @apply my-1.5 mb-2.5 box-border w-full rounded-sm border border-stone-500 bg-[#3f3b39] px-2.5 py-2 text-stone-100;
+  }
+
+  a {
+    @apply text-amber-300 underline decoration-amber-300/40 underline-offset-2;
+  }
+
+  ul {
+    @apply m-0 list-disc pl-5;
+  }
+
+  li {
+    @apply mb-1;
+  }
+}

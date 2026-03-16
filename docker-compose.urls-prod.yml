@@ -1,0 +1,12 @@
+services:
+  frontend:
+    deploy:
+      labels:
+        caddy: ${APP_HOST:-app.example.com}
+        caddy.reverse_proxy: "{{upstreams 4173}}"
+
+  api:
+    deploy:
+      labels:
+        caddy: ${API_HOST:-api.example.com}
+        caddy.reverse_proxy: "{{upstreams 8000}}"
