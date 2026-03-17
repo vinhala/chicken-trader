@@ -16,16 +16,18 @@
    - 4.1 [News Ingestion](#41-news-ingestion)
    - 4.2 [AI-Based Opportunity Detection](#42-ai-based-opportunity-detection)
    - 4.3 [AI-Generated Investment Reports](#43-ai-generated-investment-reports)
-   - 4.4 [Following an Investment Thesis](#44-following-an-investment-thesis)
-   - 4.5 [Thesis Monitoring System](#45-thesis-monitoring-system)
-   - 4.6 [AI Thesis Reevaluation](#46-ai-thesis-reevaluation)
-   - 4.7 [User Notifications](#47-user-notifications)
+   - 4.4 [Security Detail Lookup](#44-security-detail-lookup)
+   - 4.5 [Following an Investment Thesis](#45-following-an-investment-thesis)
+   - 4.6 [Thesis Monitoring System](#46-thesis-monitoring-system)
+   - 4.7 [AI Thesis Reevaluation](#47-ai-thesis-reevaluation)
+   - 4.8 [User Notifications](#48-user-notifications)
 5. [User Interface Requirements](#5-user-interface-requirements)
    - 5.1 [Daily Opportunities Dashboard](#51-daily-opportunities-dashboard)
    - 5.2 [Opportunity Detail Page](#52-opportunity-detail-page)
    - 5.3 [Followed Ideas Dashboard](#53-followed-ideas-dashboard)
    - 5.4 [Notifications Centre](#54-notifications-centre)
    - 5.5 [Watchlist](#55-watchlist)
+   - 5.6 [Security Detail View](#56-security-detail-view)
 6. [System Architecture](#6-system-architecture)
    - 6.1 [Frontend](#61-frontend)
    - 6.2 [Backend](#62-backend)
@@ -184,7 +186,20 @@ News APIs → Ingestion → Deduplication & Clustering → AI Relevance Filter
 
 ---
 
-### 4.4 Following an Investment Thesis
+### 4.4 Security Detail Lookup
+
+**REQ-SDL-001** The system shall expose an API endpoint that, given a ticker symbol, returns enriched security metadata sourced from an external market data provider.
+
+**REQ-SDL-002** The security metadata response shall include:
+
+- Full legal name of the security
+- List of exchanges on which the security is tradable
+- Security type (e.g., Common Stock, ETF, Index, Commodity, etc.)
+- Previous close price
+
+---
+
+### 4.5 Following an Investment Thesis
 
 **REQ-FOL-001** An authenticated user shall be able to follow any active investment opportunity from its detail page.
 
@@ -212,11 +227,11 @@ News APIs → Ingestion → Deduplication & Clustering → AI Relevance Filter
 
 ---
 
-### 4.5 Thesis Monitoring System
+### 4.6 Thesis Monitoring System
 
 **REQ-MON-001** The backend shall operate a continuous monitoring loop for all thesis records with status Active or Warning.
 
-**REQ-MON-002** The monitoring system shall perform the following checks on a configurable schedule (minimum frequency: every 6 hours):
+**REQ-MON-002** The monitoring system shall perform the following checks on a configurable schedule (minimum frequency: every 12 hours):
 
 **News Monitoring:**
 
@@ -234,7 +249,7 @@ News APIs → Ingestion → Deduplication & Clustering → AI Relevance Filter
 
 ---
 
-### 4.6 AI Thesis Reevaluation
+### 4.7 AI Thesis Reevaluation
 
 **REQ-REV-001** The AI reevaluation process shall be triggered automatically after each monitoring cycle for each active thesis.
 
@@ -254,7 +269,7 @@ News APIs → Ingestion → Deduplication & Clustering → AI Relevance Filter
 
 ---
 
-### 4.7 User Notifications
+### 4.8 User Notifications
 
 **REQ-NOT-001** The system shall generate a notification whenever a thesis status changes to Warning or Close Suggested.
 
@@ -320,6 +335,8 @@ The frontend shall be a single-page application built with Vue.js and Vite. All 
 
 **REQ-UI-DET-006** Source articles shall be accessible via reference links at the bottom of the report.
 
+**REQ-UI-DET-007** Each suggested security entry shall be interactive. Clicking or tapping a security entry shall open a detail view (e.g., a modal or slide-over panel) displaying the enriched security metadata specified in REQ-SDL-002.
+
 ---
 
 ### 5.3 Followed Ideas Dashboard
@@ -368,6 +385,21 @@ The frontend shall be a single-page application built with Vue.js and Vite. All 
 **REQ-UI-WL-002** The watchlist view shall display each bookmarked security with its ticker, name, and asset type.
 
 **REQ-UI-WL-003** Users shall be able to add and remove securities from the watchlist from the opportunity detail page or directly from the watchlist view.
+
+---
+
+### 5.6 Security Detail View
+
+**REQ-UI-SDL-001** The security detail view shall display the following fields sourced from the market data provider:
+
+- Full legal name of the security
+- List of exchanges where the security is tradable
+- Security type (e.g., Common Stock, ETF, Index, Commodity)
+- Previous close price
+
+**REQ-UI-SDL-002** The detail view shall be dismissible without navigating away from the current page.
+
+**REQ-UI-SDL-003** If market data is unavailable for a given security, the detail view shall display a graceful fallback message rather than an error state.
 
 ---
 

@@ -26,7 +26,7 @@ import ChickenLogo from "./components/ChickenLogo.vue";
 const authStore = useAuthStore();
 const router = useRouter();
 
-const isAuthenticated = computed(() => Boolean(localStorage.getItem("token")));
+const isAuthenticated = computed(() => Boolean(authStore.user));
 
 onMounted(async () => {
   if (localStorage.getItem("token")) {

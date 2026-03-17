@@ -45,7 +45,7 @@
           <p style="margin: 0; color: #000; font-size: 0.8rem;">⚠️ {{ store.selected.assets_warning }}</p>
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 0.25rem; margin-top: 0.5rem;">
-          <span v-for="asset in store.selected.assets" :key="asset.ticker" class="ticker-chip">
+          <span v-for="asset in store.selected.assets" :key="asset.ticker" class="ticker-chip" style="cursor: pointer;" @click="openDetail(asset.ticker)">
             <strong>{{ asset.ticker }}</strong>
             <AppBadge :variant="directionVariant(asset.direction)">{{ asset.direction }}</AppBadge>
           </span>
@@ -58,6 +58,12 @@
         <div v-if="store.error" class="mario-error">{{ store.error }}</div>
       </div>
     </AppCard>
+
+    <SecurityDetailModal
+      :ticker="selectedTicker"
+      :visible="!!selectedTicker"
+      @close="selectedTicker = ''"
+    />
   </section>
 </template>
 
@@ -69,10 +75,12 @@ import AppCard from "../components/AppCard.vue";
 import AppBadge from "../components/AppBadge.vue";
 import AppButton from "../components/AppButton.vue";
 import ChickenLoader from "../components/ChickenLoader.vue";
+import SecurityDetailModal from "../components/SecurityDetailModal.vue";
 
 const route = useRoute();
 const store = useOpportunitiesStore();
 const message = ref("");
+const selectedTicker = ref("");
 
 onMounted(() => store.loadDetail(String(route.params.id)));
 
@@ -81,6 +89,11 @@ function directionVariant(direction: string): "active" | "sell" | "hold" {
   if (d === "buy" || d === "long") return "active";
   if (d === "sell" || d === "short") return "sell";
   return "hold";
+}
+
+function openDetail(ticker: string) {
+  selectedTicker.value = ticker;
+  store.loadSecurityDetail(ticker);
 }
 
 async function follow() {

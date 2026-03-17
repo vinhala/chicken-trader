@@ -7,6 +7,9 @@ export const useOpportunitiesStore = defineStore("opportunities", {
     selected: null as any,
     error: "",
     loading: false,
+    securityDetail: null as any,
+    securityDetailLoading: false,
+    securityDetailError: "",
   }),
   actions: {
     async loadDaily() {
@@ -26,6 +29,14 @@ export const useOpportunitiesStore = defineStore("opportunities", {
     },
     async follow(id: string) {
       await api(`/opportunities/${id}/follow`, { method: "POST", body: JSON.stringify({ time_horizon: "event-driven" }) });
+    },
+    async loadSecurityDetail(ticker: string) {
+      this.securityDetailError = "";
+      this.securityDetailLoading = true;
+      this.securityDetail = null;
+      try { this.securityDetail = await api(`/securities/${encodeURIComponent(ticker)}`); }
+      catch (e: any) { this.securityDetailError = e.message; }
+      finally { this.securityDetailLoading = false; }
     },
   },
 });

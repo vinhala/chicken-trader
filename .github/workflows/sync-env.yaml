@@ -37,6 +37,10 @@ on:
         required: false
       OPENAI_API_KEY:
         required: true
+      EODHD_API_KEY:
+        required: true
+      EODHD_API_BASE_URL:
+        required: false
       SMTP_HOST:
         required: false
       SMTP_PORT:
@@ -69,6 +73,8 @@ jobs:
           MARKET_API_KEY: ${{ secrets.MARKET_API_KEY }}
           MARKET_API_BASE_URL: ${{ secrets.MARKET_API_BASE_URL }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          EODHD_API_KEY: ${{ secrets.EODHD_API_KEY }}
+          EODHD_API_BASE_URL: ${{ secrets.EODHD_API_BASE_URL }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
@@ -78,7 +84,7 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER_NAME }}
           key: ${{ secrets.VM_SSH_KEY }}
-          envs: SECRET_KEY,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,POSTGRES_HOST,POSTGRES_PORT,REDIS_HOST,REDIS_PORT,REDIS_DB,NEWS_API_KEY,NEWS_API_BASE_URL,MARKET_API_KEY,MARKET_API_BASE_URL,OPENAI_API_KEY,SMTP_HOST,SMTP_PORT,SMTP_USER,SMTP_PASSWORD,SMTP_FROM
+          envs: SECRET_KEY,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,POSTGRES_HOST,POSTGRES_PORT,REDIS_HOST,REDIS_PORT,REDIS_DB,NEWS_API_KEY,NEWS_API_BASE_URL,MARKET_API_KEY,MARKET_API_BASE_URL,OPENAI_API_KEY,EODHD_API_KEY,EODHD_API_BASE_URL,SMTP_HOST,SMTP_PORT,SMTP_USER,SMTP_PASSWORD,SMTP_FROM
           script: |
             {
               printf 'SECRET_KEY=%s\n' "${SECRET_KEY}"
@@ -96,6 +102,8 @@ jobs:
               printf 'MARKET_API_KEY=%s\n' "${MARKET_API_KEY}"
               printf 'MARKET_API_BASE_URL=%s\n' "${MARKET_API_BASE_URL:-https://finnhub.io/api/v1}"
               printf 'OPENAI_API_KEY=%s\n' "${OPENAI_API_KEY}"
+              printf 'EODHD_API_KEY=%s\n' "${EODHD_API_KEY}"
+              printf 'EODHD_API_BASE_URL=%s\n' "${EODHD_API_BASE_URL:-https://eodhd.com/api}"
               printf 'SMTP_HOST=%s\n' "${SMTP_HOST}"
               printf 'SMTP_PORT=%s\n' "${SMTP_PORT:-587}"
               printf 'SMTP_USER=%s\n' "${SMTP_USER}"

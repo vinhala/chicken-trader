@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     news_api_base_url: str = "https://newsapi.org/v2"
     market_api_key: str = ""
     market_api_base_url: str = "https://finnhub.io/api/v1"
+    eodhd_api_key: str = ""
+    eodhd_api_base_url: str = "https://eodhd.com/api"
     openai_api_key: str = ""
     smtp_host: str = ""
     smtp_port: int = 587

@@ -1,21 +1,6 @@
 function resolveApiBase(): string {
-  const configured = import.meta.env.VITE_API_BASE_URL?.trim();
-  if (configured) {
-    return `${configured.replace(/\/$/, "")}/api`;
-  }
-
-  if (typeof window !== "undefined") {
-    const host = window.location.hostname;
-    const protocol = window.location.protocol === "https:" ? "https" : "http";
-    if (host === "app.localhost") {
-      return `${protocol}://api.localhost/api`;
-    }
-    if (host.startsWith("app.")) {
-      return `${protocol}://api.${host.slice(4)}/api`;
-    }
-  }
-
-  return "/api";
+  const configured = import.meta.env.VITE_API_BASE_URL.trim();
+  return `${configured.replace(/\/$/, "")}/api`
 }
 
 const base = resolveApiBase();
