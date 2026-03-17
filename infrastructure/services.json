@@ -1,0 +1,22 @@
+[
+    {
+        "path":"backend",
+        "image":"backend",
+        "service":"api"
+    },
+    {
+        "path":"worker",
+        "image":"backend",
+        "service":"worker"
+    },
+    {
+        "path":"scheduler",
+        "image":"backend",
+        "service":"scheduler"
+    },
+    {
+        "path":"frontend",
+        "image":"frontend",
+        "service":"frontend"
+    }
+]
