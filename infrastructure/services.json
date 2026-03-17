@@ -5,12 +5,12 @@
         "service":"api"
     },
     {
-        "path":"worker",
+        "path":"backend",
         "image":"backend",
         "service":"worker"
     },
     {
-        "path":"scheduler",
+        "path":"backend",
         "image":"backend",
         "service":"scheduler"
     },
