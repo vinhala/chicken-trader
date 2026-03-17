@@ -45,3 +45,4 @@ jobs:
             make deploy-prod STACK_NAME=${{ vars.STACK_NAME }} ENV_FILE=/home/${{ secrets.vm_user_name }}/.env
             # Cleanup
             rm -rf /home/${{ secrets.vm_user_name }}/infrastructure/* 
+            rm -rf /home/${{ secrets.vm_user_name }}/env/* 

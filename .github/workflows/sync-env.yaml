@@ -104,5 +104,5 @@ jobs:
           username: ${{ secrets.VM_USER_NAME }}
           key: ${{ secrets.VM_SSH_KEY }}
           source: "${{ runner.temp }}/.env"
-          target: "/home/${{ secrets.VM_USER_NAME }}"
+          target: "/home/${{ secrets.VM_USER_NAME }}/env"
           strip_components: 3
