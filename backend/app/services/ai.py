@@ -61,7 +61,7 @@ def _call_openai(prompt: str) -> Optional[dict]:
         from openai import OpenAI
         client = OpenAI(api_key=settings.openai_api_key)
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-5.4",
             messages=[{"role": "user", "content": prompt}],
             response_format={"type": "json_object"},
             temperature=0.3,
