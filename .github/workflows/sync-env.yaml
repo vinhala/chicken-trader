@@ -52,7 +52,8 @@ jobs:
   sync-env:
     runs-on: ubuntu-latest
     steps:
-      - name: Write .env file
+      - name: Write .env file on VM
+        uses: appleboy/ssh-action@v1.0.3
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
@@ -73,36 +74,31 @@ jobs:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           SMTP_FROM: ${{ secrets.SMTP_FROM }}
-        run: |
-          cat > "$RUNNER_TEMP/.env" <<EOF
-          SECRET_KEY=${SECRET_KEY}
-          ACCESS_TOKEN_EXPIRE_MINUTES=1440
-          POSTGRES_USER=${POSTGRES_USER:-app}
-          POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-          POSTGRES_DB=${POSTGRES_DB:-investment_app}
-          POSTGRES_HOST=${POSTGRES_HOST:-postgres}
-          POSTGRES_PORT=${POSTGRES_PORT:-5432}
-          REDIS_HOST=${REDIS_HOST:-redis}
-          REDIS_PORT=${REDIS_PORT:-6379}
-          REDIS_DB=${REDIS_DB:-0}
-          NEWS_API_KEY=${NEWS_API_KEY}
-          NEWS_API_BASE_URL=${NEWS_API_BASE_URL:-https://newsapi.org/v2}
-          MARKET_API_KEY=${MARKET_API_KEY}
-          MARKET_API_BASE_URL=${MARKET_API_BASE_URL:-https://finnhub.io/api/v1}
-          OPENAI_API_KEY=${OPENAI_API_KEY}
-          SMTP_HOST=${SMTP_HOST}
-          SMTP_PORT=${SMTP_PORT:-587}
-          SMTP_USER=${SMTP_USER}
-          SMTP_PASSWORD=${SMTP_PASSWORD}
-          SMTP_FROM=${SMTP_FROM:-no-reply@example.com}
-          EOF
-
-      - name: Copy .env to VM
-        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER_NAME }}
           key: ${{ secrets.VM_SSH_KEY }}
-          source: "${{ runner.temp }}/.env"
-          target: "/home/${{ secrets.VM_USER_NAME }}/"
-          strip_components: 4
+          envs: SECRET_KEY,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,POSTGRES_HOST,POSTGRES_PORT,REDIS_HOST,REDIS_PORT,REDIS_DB,NEWS_API_KEY,NEWS_API_BASE_URL,MARKET_API_KEY,MARKET_API_BASE_URL,OPENAI_API_KEY,SMTP_HOST,SMTP_PORT,SMTP_USER,SMTP_PASSWORD,SMTP_FROM
+          script: |
+            {
+              printf 'SECRET_KEY=%s\n' "${SECRET_KEY}"
+              printf 'ACCESS_TOKEN_EXPIRE_MINUTES=1440\n'
+              printf 'POSTGRES_USER=%s\n' "${POSTGRES_USER:-app}"
+              printf 'POSTGRES_PASSWORD=%s\n' "${POSTGRES_PASSWORD}"
+              printf 'POSTGRES_DB=%s\n' "${POSTGRES_DB:-investment_app}"
+              printf 'POSTGRES_HOST=%s\n' "${POSTGRES_HOST:-postgres}"
+              printf 'POSTGRES_PORT=%s\n' "${POSTGRES_PORT:-5432}"
+              printf 'REDIS_HOST=%s\n' "${REDIS_HOST:-redis}"
+              printf 'REDIS_PORT=%s\n' "${REDIS_PORT:-6379}"
+              printf 'REDIS_DB=%s\n' "${REDIS_DB:-0}"
+              printf 'NEWS_API_KEY=%s\n' "${NEWS_API_KEY}"
+              printf 'NEWS_API_BASE_URL=%s\n' "${NEWS_API_BASE_URL:-https://newsapi.org/v2}"
+              printf 'MARKET_API_KEY=%s\n' "${MARKET_API_KEY}"
+              printf 'MARKET_API_BASE_URL=%s\n' "${MARKET_API_BASE_URL:-https://finnhub.io/api/v1}"
+              printf 'OPENAI_API_KEY=%s\n' "${OPENAI_API_KEY}"
+              printf 'SMTP_HOST=%s\n' "${SMTP_HOST}"
+              printf 'SMTP_PORT=%s\n' "${SMTP_PORT:-587}"
+              printf 'SMTP_USER=%s\n' "${SMTP_USER}"
+              printf 'SMTP_PASSWORD=%s\n' "${SMTP_PASSWORD}"
+              printf 'SMTP_FROM=%s\n' "${SMTP_FROM:-no-reply@example.com}"
+            } > ~/.env
