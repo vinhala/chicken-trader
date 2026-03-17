@@ -106,7 +106,8 @@ jobs:
               curl \
               software-properties-common \
               make \
-              gnupg
+              gnupg \
+              jq
 
             # Add Docker GPG key
             curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
