@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 
 
@@ -17,6 +19,7 @@ class OpportunityListItem(BaseModel):
     sector: str
     confidence: str
     expected_market_impact: str
+    created_at: datetime
 
 
 class OpportunityDetail(BaseModel):
@@ -30,6 +33,7 @@ class OpportunityDetail(BaseModel):
     thesis_conditions: str
     assets: list[AssetOut]
     assets_warning: str | None = None
+    created_at: datetime
 
 
 class FollowRequest(BaseModel):

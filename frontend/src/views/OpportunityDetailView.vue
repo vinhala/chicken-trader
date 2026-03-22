@@ -13,6 +13,7 @@
 
     <AppCard v-if="store.selected">
       <h3>{{ store.selected.headline }}</h3>
+      <p style="font-size: 0.7rem; opacity: 0.6; margin-bottom: 1rem;">Generated: {{ new Date(store.selected.created_at).toLocaleString() }}</p>
 
       <div class="detail-section">
         <span class="mario-badge mario-badge--sector detail-section-label">Event</span>

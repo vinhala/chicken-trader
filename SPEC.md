@@ -312,6 +312,7 @@ The frontend shall be a single-page application built with Vue.js and Vite. All 
 - Affected sector(s)
 - AI confidence indicator
 - Expected market impact (High / Medium / Low)
+- Creation time (date and time the report was generated)
 - A link or button to open the full report
 
 **REQ-UI-DASH-004** The dashboard shall support filtering by sector, time horizon, and confidence level.
@@ -326,7 +327,7 @@ The frontend shall be a single-page application built with Vue.js and Vite. All 
 
 **REQ-UI-DET-001** The detail page shall render the full investment report for a selected opportunity.
 
-**REQ-UI-DET-002** The detail page shall include all report fields specified in REQ-RPT-002.
+**REQ-UI-DET-002** The detail page shall include all report fields specified in REQ-RPT-002, as well as the creation timestamp of the report (date and time the report was generated).
 
 **REQ-UI-DET-003** Each suggested security entry shall be displayed in a structured format (card or table row) including all fields specified in REQ-RPT-003.
 

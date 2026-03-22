@@ -44,6 +44,7 @@ def list_opportunities(
             sector=e.sector,
             confidence=e.confidence,
             expected_market_impact=e.expected_market_impact,
+            created_at=e.created_at,
         )
         for e in events
     ]
@@ -83,6 +84,7 @@ def opportunity_detail(
             for a in assets
         ],
         assets_warning=assets_warning,
+        created_at=report.created_at,
     )
 
 
