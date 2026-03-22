@@ -19,13 +19,23 @@ def list_opportunities(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> list[OpportunityListItem]:
+    from datetime import datetime, timedelta
+
     _ = current_user
+    # Calculate the start of yesteday
+    start_of_yesterday = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
     impact_order = case(
         (Event.expected_market_impact == "High", 1),
         (Event.expected_market_impact == "Medium", 2),
         else_=3,
     )
-    events = db.query(Event).order_by(impact_order, Event.relevance_score.desc(), Event.created_at.desc()).limit(25).all()
+    events = (
+        db.query(Event)
+        .filter(Event.created_at >= start_of_yesterday)
+        .order_by(impact_order, Event.relevance_score.desc(), Event.created_at.desc())
+        .limit(25)
+        .all()
+    )
     return [
         OpportunityListItem(
             event_id=e.id,
