@@ -6,3 +6,7 @@ services:
   api:
     labels:
       caddy: api.chicken-trader.lol
+
+  umami:
+    labels:
+      caddy: analytics.chicken-trader.lol

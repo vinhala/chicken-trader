@@ -36,4 +36,21 @@ router.beforeEach((to) => {
   return true;
 });
 
+router.afterEach((to) => {
+  const umami = window.umami;
+  if (!umami) {
+    return;
+  }
+
+  const location = to.fullPath || to.path;
+  if (typeof umami.trackView === "function") {
+    umami.trackView(location);
+    return;
+  }
+
+  if (typeof umami.track === "function") {
+    umami.track(() => ({ url: location }));
+  }
+});
+
 export default router;

@@ -1,9 +1,6 @@
 # Build stage
 FROM node:22-alpine AS build-stage
 
-# Add build argument with default value
-ARG VITE_API_BASE_URL=https://api.chicken-trader.lol
-
 # Set working directory
 WORKDIR /app
 
@@ -13,11 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm ci --only=production=false
 
-# Copy source code
+# Copy source code and build
 COPY . .
 
-# Set environment variable and build
-ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 RUN npm run build
 
 # Production stage
@@ -31,6 +26,8 @@ COPY --from=build-stage /app/dist /usr/share/nginx/html
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # Expose port 80
 EXPOSE 80
@@ -38,6 +35,8 @@ EXPOSE 80
 # Add healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost/ || exit 1
+
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]

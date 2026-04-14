@@ -1,6 +1,8 @@
 function resolveApiBase(): string {
-  const configured = import.meta.env.VITE_API_BASE_URL.trim();
-  return `${configured.replace(/\/$/, "")}/api`
+  const runtimeValue = window.__APP_ENV__?.API_BASE_URL?.trim();
+  const viteValue = import.meta.env.VITE_API_BASE_URL?.trim();
+  const configured = runtimeValue || viteValue || "/api";
+  return `${configured.replace(/\/$/, "")}/api`;
 }
 
 const base = resolveApiBase();

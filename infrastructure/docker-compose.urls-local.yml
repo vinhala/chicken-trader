@@ -8,3 +8,8 @@ services:
     labels:
       caddy.tls: "internal"
       caddy: api.localhost
+
+  umami:
+    labels:
+      caddy.tls: "internal"
+      caddy: analytics.localhost
