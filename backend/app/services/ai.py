@@ -35,7 +35,7 @@ Return a JSON object with exactly these fields:
   ]
 }}
 
-Suggest 3-5 tradable securities most directly affected by this event. Return valid JSON only, no markdown."""
+Suggest 1-5 tradable securities most directly affected by this event. Return valid JSON only, no markdown."""
 
 _CLASSIFY_PROMPT = """You are a financial news analyst. Classify this news event for investment relevance.
 

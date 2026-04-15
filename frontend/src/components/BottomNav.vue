@@ -15,10 +15,6 @@
         {{ unreadCount }}
       </span>
     </RouterLink>
-    <RouterLink class="bottom-nav__item" to="/watchlist">
-      <span class="bottom-nav__icon">👁</span>
-      <span>Watch</span>
-    </RouterLink>
   </nav>
 </template>
 

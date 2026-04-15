@@ -18,7 +18,7 @@ AI-powered daily investment opportunity platform. News articles are ingested, cl
 - `backend/app/main.py` — FastAPI app entry point; registers all routers, runs startup tasks
 - `backend/app/core/config.py` — Pydantic settings singleton; reads from `.env`
 - `backend/app/models/entities.py` — All SQLAlchemy ORM models
-- `backend/app/api/` — API route handlers (auth, opportunities, theses, notifications, watchlist)
+- `backend/app/api/` — API route handlers (auth, opportunities, theses, notifications)
 - `backend/app/services/` — Business logic (report generation, thesis evaluation, news ingestion, notifications)
 - `backend/app/workers/` — Celery tasks and beat schedule (news every 6h, thesis re-eval daily)
 - `backend/alembic/` — Database migrations

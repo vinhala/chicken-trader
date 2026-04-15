@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.exc import OperationalError
 
-from app.api import auth, notifications, opportunities, securities, theses, watchlist
+from app.api import auth, notifications, opportunities, securities, theses
 from app.db.base import Base, SessionLocal, engine
 from app.models import entities  # noqa: F401
 
@@ -52,7 +52,6 @@ app.include_router(opportunities.router, prefix="/api")
 app.include_router(securities.router, prefix="/api")
 app.include_router(theses.router, prefix="/api")
 app.include_router(notifications.router, prefix="/api")
-app.include_router(watchlist.router, prefix="/api")
 
 
 @app.get("/api/health")

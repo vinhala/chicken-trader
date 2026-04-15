@@ -1,10 +1,8 @@
 services:
   frontend:
     image: ghcr.io/chicken-trader/frontend:latest
-    environment:
-      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-/api}
-      - UMAMI_WEBSITE_ID=${UMAMI_WEBSITE_ID:-}
-      - UMAMI_HOST_URL=${UMAMI_BASE_URL:-}
+    env_file:
+      - ../.env
     networks:
       - caddy-network
     deploy:

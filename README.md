@@ -17,7 +17,6 @@ This repository contains an MVP implementation of a news-driven investment oppor
 - Daily reevaluation states: Active / Hold / Warning / Sell
 - Terminal Sell behavior: single notification + close thesis + stop reprocessing
 - In-app notifications center
-- Watchlist management
 - News ingestion worker and AI report generation pipeline with ticker validation retry
 
 ## Architecture
@@ -93,7 +92,6 @@ docker stack deploy -c docker-compose.network.yml -c docker-compose.app.yml -c d
 - `POST /api/theses/reevaluate`
 - `GET /api/notifications`
 - `POST /api/notifications/{id}/read`
-- `GET|POST|DELETE /api/watchlist`
 
 ## Background jobs
 

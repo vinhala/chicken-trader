@@ -24,7 +24,7 @@ build-local:
 	docker build -t ghcr.io/$(GITHUB_REPOSITORY_OWNER)/frontend:latest ../frontend --build-arg VITE_API_BASE_URL=https://api.localhost
 
 deploy-local:
-	docker stack deploy -c docker-compose.network-local.yml -c docker-compose.app.yml -c docker-compose.umami.yml -c docker-compose.urls-local.yml ${STACK_NAME} --detach=false --resolve-image=always
+	docker stack deploy -c docker-compose.network-local.yml -c docker-compose.app.yml -c docker-compose.urls-local.yml ${STACK_NAME} --detach=false --resolve-image=always
 
 # deploy all services with databases and production urls and env
 deploy-prod:

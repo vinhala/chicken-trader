@@ -26,9 +26,8 @@
    - 5.2 [Opportunity Detail Page](#52-opportunity-detail-page)
    - 5.3 [Followed Ideas Dashboard](#53-followed-ideas-dashboard)
    - 5.4 [Notifications Centre](#54-notifications-centre)
-   - 5.5 [Watchlist](#55-watchlist)
-   - 5.6 [Security Detail View](#56-security-detail-view)
-   - 5.7 [Landing Page](#57-landing-page)
+   - 5.5 [Security Detail View](#55-security-detail-view)
+   - 5.6 [Landing Page](#56-landing-page)
 6. [System Architecture](#6-system-architecture)
    - 6.1 [Frontend](#61-frontend)
    - 6.2 [Backend](#62-backend)
@@ -380,17 +379,7 @@ The frontend shall be a single-page application built with Vue.js and Vite. All 
 
 ---
 
-### 5.5 Watchlist
-
-**REQ-UI-WL-001** Users shall be able to bookmark individual securities independently of any investment thesis.
-
-**REQ-UI-WL-002** The watchlist view shall display each bookmarked security with its ticker, name, and asset type.
-
-**REQ-UI-WL-003** Users shall be able to add and remove securities from the watchlist from the opportunity detail page or directly from the watchlist view.
-
----
-
-### 5.6 Security Detail View
+### 5.5 Security Detail View
 
 **REQ-UI-SDL-001** The security detail view shall display the following fields sourced from the market data provider:
 
@@ -405,7 +394,7 @@ The frontend shall be a single-page application built with Vue.js and Vite. All 
 
 ---
 
-### 5.7 Landing Page
+### 5.6 Landing Page
 
 **REQ-UI-LP-001** Unauthenticated visitors shall be presented with a dedicated landing page instead of the application dashboard.
 
@@ -538,7 +527,6 @@ The following external integrations are required or recommended:
 | `ThesisRecord` | id, user_id, report_id, event_id, securities[], follow_timestamp, time_horizon, thesis_conditions, status, status_updated_at |
 | `ReevaluationResult` | id, thesis_record_id, status, rationale, affected_securities, suggested_action, evaluated_at |
 | `Notification` | id, user_id, thesis_record_id, reevaluation_result_id, read, created_at |
-| `WatchlistEntry` | id, user_id, ticker, name, asset_type |
 
 ---
 
